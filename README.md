@@ -9,7 +9,7 @@ BitLinks is a modern, efficient URL shortener that converts long, complex URLs i
 - Manage and share shortened links easily
 - Professional, minimalist design
 
-##  How to Use
+## How to Use
 
 1. Enter your long URL.
 2. Enter your preferred shorten URL.
@@ -24,10 +24,12 @@ BitLinks is a modern, efficient URL shortener that converts long, complex URLs i
 ## 📌 Installation
 
 ```bash
-git clone https://github.com/nilexrana/bitlinks.git
+git clone https://github.com/nileshxrana/bitlinks.git
 cd bitlinks
 npm install
 npm run dev
 ```
-## Live Link :- 
+
+## Live Link :-
+
 https://bitlinks.nileshrana.me
