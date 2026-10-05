@@ -32,4 +32,4 @@ npm run dev
 
 ## Live Link :-
 
-https://bitlinks.nileshrana.me
+https://bitlinks.nileshrana.tech

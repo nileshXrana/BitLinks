@@ -1,24 +1,24 @@
-"use client"
-import Link from 'next/link'
-import React from 'react'
-import { useState } from 'react'
+"use client";
+import Link from "next/link";
+import React from "react";
+import { useState } from "react";
 
 const Page = () => {
-  const [url, seturl] = useState("")
-  const [shorturl, setshorturl] = useState("")
-  const [generated, setgenerated] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [url, seturl] = useState("");
+  const [shorturl, setshorturl] = useState("");
+  const [generated, setgenerated] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleChangeUrl = (e) => {
-    seturl(e.target.value)
-    setError("")
-  }
+    seturl(e.target.value);
+    setError("");
+  };
   const handleChangeShortUrl = (e) => {
-    setshorturl(e.target.value)
-    setError("")
-  }
+    setshorturl(e.target.value);
+    setError("");
+  };
 
   const isValidUrl = (string) => {
     try {
@@ -27,13 +27,13 @@ const Page = () => {
     } catch (_) {
       return false;
     }
-  }
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(generated);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  }
+  };
 
   const generate = () => {
     // Client-side validation
@@ -42,7 +42,9 @@ const Page = () => {
       return;
     }
     if (!isValidUrl(url)) {
-      setError("Please enter a valid URL (must start with http:// or https://)");
+      setError(
+        "Please enter a valid URL (must start with http:// or https://)",
+      );
       return;
     }
     if (!shorturl.trim()) {
@@ -54,7 +56,9 @@ const Page = () => {
       return;
     }
     if (!/^[a-zA-Z0-9-_]+$/.test(shorturl)) {
-      setError("Short URL can only contain letters, numbers, hyphens, and underscores");
+      setError(
+        "Short URL can only contain letters, numbers, hyphens, and underscores",
+      );
       return;
     }
 
@@ -64,23 +68,23 @@ const Page = () => {
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
-      "url": url,
-      "shorturl": shorturl
+      url: url,
+      shorturl: shorturl,
     });
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: "follow"
+      redirect: "follow",
     };
 
     fetch("/api/generate", requestOptions)
       .then((response) => response.json())
-      .then((result) =>{
+      .then((result) => {
         setLoading(false);
-        if(result.success){
-          setgenerated(`${process.env.NEXT_PUBLIC_HOST}/${shorturl}`)
+        if (result.success) {
+          setgenerated(`${process.env.NEXT_PUBLIC_HOST}/${shorturl}`);
           seturl("");
           setshorturl("");
         } else {
@@ -92,7 +96,7 @@ const Page = () => {
         setLoading(false);
         setError("Failed to generate URL. Please try again.");
       });
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50 py-12 px-4">
@@ -121,11 +125,11 @@ const Page = () => {
                 <span className="text-lg">🔗</span>
                 Enter your long URL
               </label>
-              <input 
-                type="text" 
-                value={url} 
-                placeholder="https://example.com/very-long-url-that-needs-shortening" 
-                onChange={handleChangeUrl} 
+              <input
+                type="text"
+                value={url}
+                placeholder="https://example.com/very-long-url-that-needs-shortening"
+                onChange={handleChangeUrl}
                 className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all bg-gray-50 hover:bg-white text-gray-800 placeholder:text-gray-400"
               />
             </div>
@@ -138,17 +142,20 @@ const Page = () => {
               </label>
               <div className="flex items-center gap-2">
                 <span className="text-gray-500 bg-gray-100 px-4 py-4 rounded-xl border-2 border-gray-200 font-mono text-sm">
-                  bitlinks.nileshrana.me/
+                  bitlinks.nileshrana.tech/
                 </span>
-                <input 
-                  type="text" 
-                  value={shorturl} 
-                  placeholder="my-link" 
-                  onChange={handleChangeShortUrl} 
+                <input
+                  type="text"
+                  value={shorturl}
+                  placeholder="my-link"
+                  onChange={handleChangeShortUrl}
                   className="flex-1 p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 transition-all bg-gray-50 hover:bg-white text-gray-800 placeholder:text-gray-400 font-mono"
                 />
               </div>
-              <p className="text-xs text-gray-500 ml-1">Letters, numbers, hyphens, and underscores only (min 3 characters)</p>
+              <p className="text-xs text-gray-500 ml-1">
+                Letters, numbers, hyphens, and underscores only (min 3
+                characters)
+              </p>
             </div>
 
             {/* Error Message */}
@@ -160,8 +167,8 @@ const Page = () => {
             )}
 
             {/* Generate Button */}
-            <button 
-              onClick={generate} 
+            <button
+              onClick={generate}
               disabled={loading}
               className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-gray-400 disabled:to-gray-500 text-white p-5 rounded-xl font-bold shadow-lg shadow-purple-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/50 hover:scale-[1.02] disabled:cursor-not-allowed disabled:scale-100 text-lg flex items-center justify-center gap-2"
             >
@@ -185,15 +192,19 @@ const Page = () => {
               <div className="flex items-start gap-3 mb-4">
                 <span className="text-2xl">✅</span>
                 <div className="flex-1">
-                  <h3 className="font-bold text-green-800 text-lg mb-1">Success! Your link is ready</h3>
-                  <p className="text-green-700 text-sm">Share it anywhere you like</p>
+                  <h3 className="font-bold text-green-800 text-lg mb-1">
+                    Success! Your link is ready
+                  </h3>
+                  <p className="text-green-700 text-sm">
+                    Share it anywhere you like
+                  </p>
                 </div>
               </div>
-              
+
               <div className="bg-white rounded-xl p-4 border-2 border-green-200">
                 <div className="flex items-center gap-3">
-                  <Link 
-                    target='_blank' 
+                  <Link
+                    target="_blank"
                     href={generated}
                     className="flex-1 text-purple-600 hover:text-purple-800 font-mono font-semibold truncate text-lg"
                   >
@@ -226,7 +237,9 @@ const Page = () => {
           <div className="bg-white p-6 rounded-2xl shadow-md border border-purple-100 text-center">
             <div className="text-4xl mb-3">🔒</div>
             <h3 className="font-bold text-gray-800 mb-2">Secure</h3>
-            <p className="text-gray-600 text-sm">Your links are safe and private</p>
+            <p className="text-gray-600 text-sm">
+              Your links are safe and private
+            </p>
           </div>
           <div className="bg-white p-6 rounded-2xl shadow-md border border-purple-100 text-center">
             <div className="text-4xl mb-3">⚡</div>
@@ -241,7 +254,7 @@ const Page = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
